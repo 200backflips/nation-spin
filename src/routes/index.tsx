@@ -74,7 +74,7 @@ function RouteComponent() {
       </button>
       <div>
         <div className="flex items-center justify-between">
-          <h2>Teams</h2>
+          <h2>{teams.length > 0 && `${teams.length} `}Teams</h2>
           <button>
             <h3 className="bg-amber-400 px-4 py-1 rounded-full">
               Manage teams
