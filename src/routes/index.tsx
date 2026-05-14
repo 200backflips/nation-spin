@@ -69,8 +69,8 @@ function RouteComponent() {
         <h1 className="uppercase">Brasil</h1>
         <div className="w-20 h-0.5 bg-primary" />
       </div>
-      <button className="flex items-center justify-center gap-2 bg-primary text-white text-3xl font-semibold self-center px-8 py-4 rounded-lg uppercase">
-        <Dice5Icon />
+      <button className="flex items-center justify-center gap-2 bg-primary text-white text-2xl font-semibold mx-8 py-6 rounded-lg uppercase">
+        <Dice5Icon className="size-9 fill-white stroke-black" />
         Spin
       </button>
       <div>
