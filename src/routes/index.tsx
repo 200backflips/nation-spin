@@ -8,7 +8,7 @@ export const Route = createFileRoute("/")({
 const teams = [
   {
     id: crypto.randomUUID(),
-    name: "Team Blim Blam",
+    name: "Team Blim Blam Blom",
     score: 42,
   },
   {
@@ -55,11 +55,6 @@ const teams = [
     id: crypto.randomUUID(),
     name: "Team Dong",
     score: 171,
-  },
-  {
-    id: crypto.randomUUID(),
-    name: "Team Blim Blam",
-    score: 42,
   },
 ];
 
@@ -87,7 +82,19 @@ function RouteComponent() {
           </button>
         </div>
       </div>
-      <div className="flex-1 overflow-auto grid grid-cols-2 gap-2">
+      <div
+        className="flex-1 overflow-auto grid grid-cols-2 gap-2"
+        onScroll={(event) => {
+          const { currentTarget } = event;
+          const { scrollTop, clientHeight, scrollHeight } = currentTarget;
+
+          currentTarget.classList.toggle("mask-t-from-90%", scrollTop > 0);
+          currentTarget.classList.toggle(
+            "mask-b-from-90%",
+            scrollTop + clientHeight < scrollHeight,
+          );
+        }}
+      >
         {teams.map((team) => (
           <div
             key={team.id}
@@ -97,7 +104,11 @@ function RouteComponent() {
               <span className="bg-secondary p-3 rounded-lg">
                 <UsersIcon />
               </span>
-              <h3>{team.name}</h3>
+              <h3>
+                {team.name?.length > 18
+                  ? team.name.slice(0, 18) + "..."
+                  : team.name}
+              </h3>
             </div>
             <div className="flex items-center gap-2">
               <button className="flex items-center justify-center px-2 border rounded-full">
