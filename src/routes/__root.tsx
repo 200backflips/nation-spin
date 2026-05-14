@@ -1,7 +1,7 @@
-import { Link, Outlet, createRootRoute } from "@tanstack/react-router";
+import { Outlet, createRootRoute } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
-import { CircleQuestionMark, MoonIcon } from "lucide-react";
-import GameInstructions from "../components/game-instructions";
+import { MoonIcon } from "lucide-react";
+import GameInstructions from "@/components/game-instructions";
 
 export const Route = createRootRoute({
   component: RootComponent,
