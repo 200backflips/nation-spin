@@ -1,5 +1,6 @@
-import { getCountries } from "@/lib/queries";
+import getCountries from "@/api/countries";
 import { useQuery } from "@tanstack/react-query";
+import { getRandomCountry } from "../lib/utils";
 
 interface NativeName {
   official: string;
@@ -19,10 +20,11 @@ export interface Country {
   };
 }
 
-const useGetCountries = () =>
+const useGetRandomCountry = () =>
   useQuery<Country[]>({
     queryKey: ["countries"],
-    queryFn: () => getCountries(),
+    queryFn: () =>
+      getCountries().then((countries) => getRandomCountry(countries)),
   });
 
-export default useGetCountries;
+export default useGetRandomCountry;

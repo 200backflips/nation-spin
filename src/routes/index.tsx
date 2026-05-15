@@ -3,16 +3,18 @@ import { Dice5Icon } from "lucide-react";
 import TeamCard from "../components/team-card";
 import ManageTeams from "../components/manage-teams";
 import useTeams from "@/hooks/teams";
-import useGetCountries from "@/hooks/countries";
-import { getRandomCountry } from "@/lib/utils";
+import useGetRandomCountry from "@/hooks/random-country";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,
 });
 
-function SpinButton() {
+function SpinButton({ onClick }: { onClick: () => void }) {
   return (
-    <button className="flex items-center justify-center gap-2 bg-primary text-white text-2xl font-semibold mx-8 py-6 rounded-lg uppercase">
+    <button
+      className="flex items-center justify-center gap-2 bg-primary text-white text-2xl font-semibold mx-8 py-6 rounded-lg uppercase"
+      onClick={onClick}
+    >
       <Dice5Icon className="size-9 fill-white stroke-black" />
       Spin
     </button>
@@ -21,10 +23,7 @@ function SpinButton() {
 
 function RouteComponent() {
   const { teams } = useTeams();
-  const { data: countries } = useGetCountries();
-
-  const randomCountry = getRandomCountry(countries);
-  console.log({ randomCountry });
+  const { data: randomCountry, refetch } = useGetRandomCountry();
 
   return (
     <>
@@ -32,10 +31,19 @@ function RouteComponent() {
         <p className="uppercase">
           Use a <strong>single</strong> word associated with
         </p>
-        <h1 className="uppercase">Brasil</h1>
+        <div className="flex items-baseline justify-center gap-2">
+          <img
+            src={randomCountry?.flags.png}
+            alt={`${randomCountry?.name.common} flag`}
+            className="h-7"
+          />
+          <h1 className="uppercase">
+            {randomCountry?.name.common ?? "Loading..."}
+          </h1>
+        </div>
         <div className="w-20 h-0.5 bg-primary" />
       </div>
-      <SpinButton />
+      <SpinButton onClick={refetch} />
       <div>
         <div className="flex items-center justify-between">
           <h2>{teams.length > 0 ? teams.length : "No"} Teams playing</h2>

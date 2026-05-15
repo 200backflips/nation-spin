@@ -1,6 +1,6 @@
 const REST_COUNTRIES_URL = "https://restcountries.com/v3.1/all";
 
-export const getCountries = async () => {
+const getCountries = async () => {
   const url = new URL(REST_COUNTRIES_URL);
   url.search = new URLSearchParams({
     fields: "name,flags",
@@ -15,3 +15,5 @@ export const getCountries = async () => {
     console.error(error);
   }
 };
+
+export default getCountries;
