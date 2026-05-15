@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Dice5Icon } from "lucide-react";
 import TeamCard from "../components/team-card";
+import ManageTeams from "../components/manage-teams";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,
@@ -76,11 +77,7 @@ function RouteComponent() {
       <div>
         <div className="flex items-center justify-between">
           <h2>{teams.length > 0 && `${teams.length} `}Teams</h2>
-          <button>
-            <h3 className="bg-amber-400 px-4 py-1 rounded-full">
-              Manage teams
-            </h3>
-          </button>
+          <ManageTeams />
         </div>
       </div>
       <div

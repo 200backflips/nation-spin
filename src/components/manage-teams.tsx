@@ -1,24 +1,22 @@
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { CircleQuestionMarkIcon } from "lucide-react";
 
-export default function GameInstructions() {
+export default function ManageTeams() {
   return (
     <Dialog>
       <DialogTrigger>
-        <CircleQuestionMarkIcon className="size-5" />
+        <h3 className="bg-amber-400 px-4 py-1 rounded-full">Manage teams</h3>
       </DialogTrigger>
       <DialogContent className="sm:max-w-sm" aria-describedby={undefined}>
         <DialogHeader>
-          <DialogTitle>How to play</DialogTitle>
-          <DialogDescription>Yackety smackety, rules go here</DialogDescription>
+          <DialogTitle>Manage Teams</DialogTitle>
         </DialogHeader>
+        <p>fook</p>
       </DialogContent>
     </Dialog>
   );
