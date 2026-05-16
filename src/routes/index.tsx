@@ -1,24 +1,32 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ClockIcon, Dice5Icon, LoaderCircleIcon } from "lucide-react";
+import { ClockIcon, Dice5Icon } from "lucide-react";
 import TeamCard from "@/components/team-card";
 import ManageGame from "@/components/manage-game";
 import useTeams from "@/hooks/teams";
 import useGetRandomCountry from "@/hooks/random-country";
 import useCountdown from "@/hooks/countdown";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import { motion, type Variants } from "motion/react";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,
 });
 
 function SpinButton({ onClick }: { onClick: () => void }) {
+  const [rotation, setRotation] = useState(360);
+
   return (
     <button
       className="flex-1 flex items-center justify-center gap-2 bg-primary text-white text-2xl font-semibold py-6 rounded-lg uppercase"
-      onClick={onClick}
+      onClick={() => {
+        setRotation((r) => r + 360);
+        onClick();
+      }}
     >
-      <Dice5Icon className="size-9 fill-white stroke-black" />
+      <motion.span animate={{ rotate: rotation }} transition={{ duration: 1 }}>
+        <Dice5Icon className="size-9 fill-white stroke-black" />
+      </motion.span>
       Spin
     </button>
   );
@@ -45,7 +53,13 @@ function TimerButton() {
 
   return (
     <button
-      className="flex justify-center gap-2 bg-secondary text-2xl font-semibold px-4 py-6 border rounded-lg"
+      className={cn(
+        "flex justify-center gap-2 bg-white text-2xl font-semibold px-4 py-6 border rounded-lg",
+        {
+          "bg-primary text-white": isRunning,
+          "bg-destructive": isRunning && remainingSeconds < 4,
+        },
+      )}
       onClick={() => {
         if (isRunning) {
           return pause();
@@ -56,17 +70,40 @@ function TimerButton() {
         return resume();
       }}
     >
-      <ClockIcon className="size-9" />
+      <motion.span
+        initial={{ scale: 1 }}
+        whileTap={{ scale: 0.8 }}
+        transition={{ duration: 1 }}
+      >
+        <ClockIcon className="size-9" />
+      </motion.span>
       <span className="w-14 text-left">{remainingSeconds}s</span>
     </button>
   );
 }
+
+const dotVariants: Variants = {
+  pulse: {
+    scale: [1, 1.5, 1],
+    transition: {
+      duration: 1.2,
+      repeat: Infinity,
+      ease: "easeInOut",
+    },
+  },
+};
 
 function RouteComponent() {
   const { teams } = useTeams();
   const { data: randomCountry, isLoading, refetch } = useGetRandomCountry();
   const countryName = randomCountry?.name.common;
   const countryFlag = randomCountry?.flags.png;
+  const [nameAnimationKey, setNameAnimationKey] = useState(0);
+
+  const handleSpin = () => {
+    setNameAnimationKey((key) => key + 1);
+    refetch();
+  };
 
   return (
     <>
@@ -76,7 +113,24 @@ function RouteComponent() {
         </p>
         <div className="h-14 w-full min-w-0 flex items-center justify-center gap-2">
           {isLoading ? (
-            <LoaderCircleIcon className="size-8 animate-spin opacity-70" />
+            <motion.div
+              animate="pulse"
+              transition={{ staggerChildren: -0.2, staggerDirection: -1 }}
+              className="flex items-center justify-center gap-5"
+            >
+              <motion.div
+                className="size-2 rounded-full bg-primary will-change-transform"
+                variants={dotVariants}
+              />
+              <motion.div
+                className="size-2 rounded-full bg-primary will-change-transform"
+                variants={dotVariants}
+              />
+              <motion.div
+                className="size-2 rounded-full bg-primary will-change-transform"
+                variants={dotVariants}
+              />
+            </motion.div>
           ) : (
             <>
               <img
@@ -85,6 +139,7 @@ function RouteComponent() {
                 className="h-7 shrink-0"
               />
               <h1
+                key={nameAnimationKey}
                 className={cn("uppercase", {
                   "text-3xl": countryName.length > 10,
                   "text-2xl": countryName.length > 13,
@@ -93,7 +148,18 @@ function RouteComponent() {
                   "text-base": countryName.length > 22,
                 })}
               >
-                {countryName ?? "Unknown country"}
+                {(countryName ?? "Unknown country")
+                  .split("")
+                  .map((letter, index) => (
+                    <motion.span
+                      key={index}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.075, delay: index * 0.0375 }}
+                    >
+                      {letter}
+                    </motion.span>
+                  ))}
               </h1>
             </>
           )}
@@ -101,7 +167,7 @@ function RouteComponent() {
         <div className="w-20 h-0.5 bg-primary" />
       </div>
       <div className="flex gap-2">
-        <SpinButton onClick={refetch} />
+        <SpinButton onClick={handleSpin} />
         <TimerButton />
       </div>
       <div>
@@ -123,8 +189,8 @@ function RouteComponent() {
           );
         }}
       >
-        {teams.map((team) => (
-          <TeamCard key={team.id} {...team} />
+        {teams.map((team, index) => (
+          <TeamCard key={team.id} {...team} delay={index * 0.1 + 0.2} />
         ))}
       </div>
     </>

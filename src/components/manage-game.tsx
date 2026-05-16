@@ -115,14 +115,14 @@ export default function ManageGame() {
         <Separator />
         <h4>{teams.length > 0 ? "Active teams" : "No active teams yet"}</h4>
         <div className="min-h-0 flex flex-col gap-2 overflow-auto">
-          {teams.map((team) => (
+          {teams.map((team, index) => (
             <motion.div
               key={team.id}
               initial={{ opacity: 0, scale: 0.5 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{
                 duration: 0.5,
-                delay: 0.2,
+                delay: index * 0.1 + 0.2,
                 ease: [0, 0.71, 0.2, 1.01],
               }}
               className="flex items-center justify-between"

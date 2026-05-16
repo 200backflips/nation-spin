@@ -1,12 +1,26 @@
 import { UsersIcon } from "lucide-react";
 import type { Team } from "@/hooks/teams";
 import useTeams from "@/hooks/teams";
+import { motion } from "motion/react";
 
-export default function TeamCard({ id, name, score }: Team) {
+type Props = Team & {
+  delay: number;
+};
+
+export default function TeamCard({ id, name, score, delay }: Props) {
   const { updateTeamScore } = useTeams();
 
   return (
-    <div className="flex flex-col justify-between gap-2 bg-white p-2 border rounded-lg">
+    <motion.div
+      className="flex flex-col justify-between gap-2 bg-white p-2 border rounded-lg"
+      initial={{ opacity: 0, scale: 0.5 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{
+        duration: 0.5,
+        delay,
+        ease: [0, 0.71, 0.2, 1.01],
+      }}
+    >
       <div className="flex items-start gap-2">
         <span className="bg-secondary p-3 rounded-lg">
           <UsersIcon />
@@ -34,6 +48,6 @@ export default function TeamCard({ id, name, score }: Team) {
           +
         </button>
       </div>
-    </div>
+    </motion.div>
   );
 }
