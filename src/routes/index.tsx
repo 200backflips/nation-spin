@@ -6,6 +6,7 @@ import useTeams from "@/hooks/teams";
 import useGetRandomCountry from "@/hooks/random-country";
 import useCountdown from "@/hooks/countdown";
 import { useEffect } from "react";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,
@@ -64,21 +65,31 @@ function TimerButton() {
 function RouteComponent() {
   const { teams } = useTeams();
   const { data: randomCountry, refetch } = useGetRandomCountry();
+  const countryName = randomCountry?.name.common;
+  const countryFlag = randomCountry?.flags.png;
 
   return (
     <>
-      <div className="flex flex-col items-center gap-4 bg-accent border px-4 py-10 rounded-lg">
+      <div className="h-48 flex flex-col items-center gap-4 bg-accent border px-4 py-10 rounded-lg">
         <p className="uppercase">
           Use a <strong>single</strong> word associated with
         </p>
-        <div className="flex items-baseline justify-center gap-2">
+        <div className="h-14 w-full min-w-0 flex items-center justify-center gap-2">
           <img
-            src={randomCountry?.flags.png}
-            alt={`${randomCountry?.name.common} flag`}
-            className="h-7"
+            src={countryFlag}
+            alt={`${countryName} flag`}
+            className="h-7 shrink-0"
           />
-          <h1 className="uppercase">
-            {randomCountry?.name.common ?? "Loading..."}
+          <h1
+            className={cn("uppercase", {
+              "text-3xl": countryName.length > 10,
+              "text-2xl": countryName.length > 13,
+              "text-xl": countryName.length > 16,
+              "text-lg": countryName.length > 19,
+              "text-base": countryName.length > 22,
+            })}
+          >
+            {countryName ?? "Loading..."}
           </h1>
         </div>
         <div className="w-20 h-0.5 bg-primary" />
