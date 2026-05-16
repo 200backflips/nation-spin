@@ -21,8 +21,8 @@ function RouteComponent() {
   const { teams } = useTeams();
   const { remainingSeconds } = useCountdown();
   const { data: randomCountry, isLoading, refetch } = useGetRandomCountry();
-  const countryName = randomCountry?.name.common;
-  const countryFlag = randomCountry?.flags.png;
+  const countryName = randomCountry?.name.common ?? "";
+  const countryFlag = randomCountry?.flags.png ?? "";
   const [nameAnimationKey, setNameAnimationKey] = useState(0);
 
   useEffect(() => {

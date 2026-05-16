@@ -32,6 +32,7 @@ const formSchema = z.object({
 const getDefaultValues = () => ({
   id: crypto.randomUUID(),
   name: "",
+  score: 0,
 });
 
 export default function ManageGame() {

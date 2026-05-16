@@ -1,4 +1,4 @@
-import type { Country } from "@/hooks/countries";
+import type { Country } from "@/hooks/random-country";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
