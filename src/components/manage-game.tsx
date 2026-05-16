@@ -32,7 +32,6 @@ const formSchema = z.object({
 const getDefaultValues = () => ({
   id: crypto.randomUUID(),
   name: "",
-  score: 0,
 });
 
 export default function ManageGame() {
@@ -43,7 +42,7 @@ export default function ManageGame() {
   const { teams, addTeam, removeTeam } = useTeams();
   const { durationSeconds, setDuration, isRunning } = useCountdown();
 
-  function onSubmit(data: Team) {
+  function onSubmit(data: Omit<Team, "score">) {
     addTeam({ ...data, score: 0 });
     form.reset(getDefaultValues);
   }

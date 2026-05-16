@@ -1,6 +1,8 @@
+import type { Country } from "@/hooks/random-country";
+
 const REST_COUNTRIES_URL = "https://restcountries.com/v3.1/all";
 
-const getCountries = async () => {
+const getCountries = async (): Promise<Country[]> => {
   const url = new URL(REST_COUNTRIES_URL);
   url.search = new URLSearchParams({
     fields: "name,flags",
@@ -13,6 +15,7 @@ const getCountries = async () => {
     return data;
   } catch (error) {
     console.error(error);
+    return [];
   }
 };
 

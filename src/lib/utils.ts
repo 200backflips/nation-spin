@@ -7,8 +7,5 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function getRandomCountry(countries: Country[]) {
-  if (!countries || countries.length === 0) {
-    return null;
-  }
   return countries[Math.floor(Math.random() * countries.length)];
 }
