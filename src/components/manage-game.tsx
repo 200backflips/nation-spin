@@ -50,7 +50,7 @@ export default function ManageGame() {
   return (
     <Dialog>
       <DialogTrigger>
-        <h2 className="px-4 py-1 bg-amber-400 font-semibold rounded-full">
+        <h2 className="px-4 py-1 bg-amber-400 text-black font-semibold rounded-full">
           Manage game
         </h2>
       </DialogTrigger>
