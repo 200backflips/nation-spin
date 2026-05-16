@@ -80,7 +80,7 @@ export default function ManageGame() {
           </div>
         </div>
         <Separator />
-        <h4>Add team</h4>
+        <h4>Add new team</h4>
         <form
           id="form-team"
           onSubmit={form.handleSubmit(onSubmit)}
