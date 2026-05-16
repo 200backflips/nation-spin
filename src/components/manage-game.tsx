@@ -22,6 +22,7 @@ import { motion } from "motion/react";
 import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
 import { Badge } from "./ui/badge";
+import useCountdown, { TIMER_DURATIONS } from "@/hooks/countdown";
 
 const formSchema = z.object({
   id: z.string(),
@@ -33,12 +34,13 @@ const getDefaultValues = () => ({
   name: "",
 });
 
-export default function ManageTeams() {
+export default function ManageGame() {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: getDefaultValues(),
   });
   const { teams, addTeam, removeTeam } = useTeams();
+  const { durationSeconds, setDuration, isRunning } = useCountdown();
 
   function onSubmit(data: Team) {
     addTeam({ ...data, score: 0 });
@@ -48,18 +50,37 @@ export default function ManageTeams() {
   return (
     <Dialog>
       <DialogTrigger>
-        <h3 className="bg-amber-400 px-4 py-1 rounded-full">Manage teams</h3>
+        <h3 className="bg-amber-400 px-4 py-1 rounded-full">Manage game</h3>
       </DialogTrigger>
       <DialogContent
         className="sm:max-w-sm max-h-[90vh] grid-rows-[auto_auto_1fr]"
         aria-describedby={undefined}
       >
         <DialogHeader>
-          <DialogTitle>Manage Teams</DialogTitle>
+          <DialogTitle>Manage game</DialogTitle>
           <DialogDescription>
-            Add new teams or remove existing ones
+            Change the game settings and manage your teams
           </DialogDescription>
         </DialogHeader>
+        <h4>Settings</h4>
+        <div className="flex items-center justify-between">
+          <p>Turn duration (in seconds)</p>
+          <div className="flex items-center gap-1">
+            {TIMER_DURATIONS.map((duration) => (
+              <Button
+                key={duration}
+                variant={duration === durationSeconds ? "default" : "outline"}
+                size="icon"
+                onClick={() => setDuration(duration)}
+                disabled={isRunning}
+              >
+                {duration}
+              </Button>
+            ))}
+          </div>
+        </div>
+        <Separator />
+        <h4>Add team</h4>
         <form
           id="form-team"
           onSubmit={form.handleSubmit(onSubmit)}

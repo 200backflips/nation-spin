@@ -1,9 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Dice5Icon } from "lucide-react";
-import TeamCard from "../components/team-card";
-import ManageTeams from "../components/manage-teams";
+import { ClockIcon, Dice5Icon } from "lucide-react";
+import TeamCard from "@/components/team-card";
+import ManageGame from "@/components/manage-game";
 import useTeams from "@/hooks/teams";
 import useGetRandomCountry from "@/hooks/random-country";
+import useCountdown from "@/hooks/countdown";
+import { useEffect } from "react";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,
@@ -12,11 +14,49 @@ export const Route = createFileRoute("/")({
 function SpinButton({ onClick }: { onClick: () => void }) {
   return (
     <button
-      className="flex items-center justify-center gap-2 bg-primary text-white text-2xl font-semibold mx-8 py-6 rounded-lg uppercase"
+      className="flex-1 flex items-center justify-center gap-2 bg-primary text-white text-2xl font-semibold py-6 rounded-lg uppercase"
       onClick={onClick}
     >
       <Dice5Icon className="size-9 fill-white stroke-black" />
       Spin
+    </button>
+  );
+}
+
+function TimerButton() {
+  const {
+    remainingSeconds,
+    isRunning,
+    durationSeconds,
+    start,
+    pause,
+    resume,
+    reset,
+  } = useCountdown();
+
+  useEffect(() => {
+    if (remainingSeconds === 0) {
+      setTimeout(() => {
+        reset();
+      }, 2000);
+    }
+  }, [remainingSeconds, reset]);
+
+  return (
+    <button
+      className="flex justify-center gap-2 bg-secondary text-2xl font-semibold px-4 py-6 border rounded-lg"
+      onClick={() => {
+        if (isRunning) {
+          return pause();
+        }
+        if (remainingSeconds === durationSeconds) {
+          return start();
+        }
+        return resume();
+      }}
+    >
+      <ClockIcon className="size-9" />
+      <span className="w-14 text-left">{remainingSeconds}s</span>
     </button>
   );
 }
@@ -43,11 +83,14 @@ function RouteComponent() {
         </div>
         <div className="w-20 h-0.5 bg-primary" />
       </div>
-      <SpinButton onClick={refetch} />
+      <div className="flex gap-2">
+        <SpinButton onClick={refetch} />
+        <TimerButton />
+      </div>
       <div>
         <div className="flex items-center justify-between">
           <h2>{teams.length > 0 ? teams.length : "No"} Teams playing</h2>
-          <ManageTeams />
+          <ManageGame />
         </div>
       </div>
       <div

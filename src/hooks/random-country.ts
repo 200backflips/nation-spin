@@ -1,6 +1,6 @@
 import getCountries from "@/api/countries";
 import { useQuery } from "@tanstack/react-query";
-import { getRandomCountry } from "../lib/utils";
+import { getRandomCountry } from "@/lib/utils";
 
 interface NativeName {
   official: string;
