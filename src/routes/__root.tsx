@@ -21,16 +21,18 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <Toaster position="top-center" />
-      <div className="p-6 h-screen flex flex-col gap-8 bg-background">
-        <div className="flex items-center justify-between">
-          <GameInstructions />
-          <h2 className="text-center">Nation Spin</h2>
-          <ThemeToggle />
+      <div className="w-screen md:py-4">
+        <div className="h-screen md:h-[calc(100vh-2rem)] md:max-w-xl mx-auto flex flex-col gap-8 p-6 bg-background md:rounded-md md:shadow-sm">
+          <div className="flex items-center justify-between">
+            <GameInstructions />
+            <h2 className="text-center">Nation Spin</h2>
+            <ThemeToggle />
+          </div>
+          <Outlet />
+          <p className="text-gray-400 text-xs text-center">
+            © {currentYear} Bunny Jones Worldwide Gaming Initiative
+          </p>
         </div>
-        <Outlet />
-        <p className="text-gray-400 text-xs text-center">
-          © {currentYear} Bunny Jones Worldwide Gaming Initiative
-        </p>
       </div>
     </QueryClientProvider>
   );

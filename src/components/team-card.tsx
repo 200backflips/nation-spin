@@ -43,7 +43,7 @@ export default function TeamCard({ id, name, score, index }: Props) {
           <UsersIcon />
         </span>
         <h3 className="text-lg">
-          {name?.length > 18 ? name.slice(0, 18) + "..." : name}
+          {name?.length > 20 ? name.slice(0, 20) + "..." : name}
         </h3>
       </div>
       <div className="flex items-center gap-2">
