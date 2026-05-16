@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import SpinButton from "@/components/ui/spin-button";
 import TimerButton from "@/components/ui/timer-button";
 import LoadingDots from "@/components/ui/loading-dots";
+import ResetTimerButton from "@/components/ui/reset-timer-button";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,
@@ -85,7 +86,10 @@ function RouteComponent() {
       </div>
       <div className="flex gap-2">
         <SpinButton onClick={handleSpin} />
-        <TimerButton />
+        <div className="flex gap-0.5">
+          <TimerButton />
+          <ResetTimerButton />
+        </div>
       </div>
       <div>
         <div className="flex items-center justify-between">

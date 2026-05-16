@@ -26,7 +26,7 @@ export default function TimerButton() {
   return (
     <button
       className={cn(
-        "flex justify-center gap-2 bg-card text-2xl font-semibold px-4 py-6 border rounded-lg transition",
+        "flex items-center justify-center gap-2 bg-card text-xl font-semibold px-3 border rounded-lg transition",
         {
           "bg-primary text-secondary": isRunning,
           "bg-destructive": isRunning && remainingSeconds < 4,
@@ -54,12 +54,12 @@ export default function TimerButton() {
             repeat: 12,
           }}
         >
-          <ClockIcon className="size-9" />
+          <ClockIcon className="size-7" />
         </motion.span>
       ) : (
-        <ClockIcon className="size-9" />
+        <ClockIcon className="size-7" />
       )}
-      <span className="w-14 text-left">{remainingSeconds}s</span>
+      <span className="w-11 text-left">{remainingSeconds}s</span>
     </button>
   );
 }

@@ -7,14 +7,14 @@ export default function SpinButton({ onClick }: { onClick: () => void }) {
 
   return (
     <button
-      className="flex-1 flex items-center justify-center gap-2 bg-primary text-secondary text-2xl font-semibold py-6 rounded-lg uppercase"
+      className="flex-1 flex items-center justify-center gap-2 bg-emerald-600 text-white text-xl font-semibold py-5 rounded-lg uppercase"
       onClick={() => {
         setRotation((r) => r + 360);
         onClick();
       }}
     >
       <motion.span animate={{ rotate: rotation }} transition={{ duration: 1 }}>
-        <Dice5Icon className="size-9 fill-secondary stroke-primary" />
+        <Dice5Icon className="size-7 fill-white stroke-emerald-600" />
       </motion.span>
       Spin
     </button>
