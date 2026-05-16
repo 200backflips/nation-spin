@@ -3,6 +3,7 @@ import { MoonIcon, SunIcon } from "lucide-react";
 import GameInstructions from "@/components/game-instructions";
 import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Toaster } from "@/components/ui/sonner";
 
 const currentYear = new Date().getFullYear();
 
@@ -34,6 +35,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <Toaster position="top-center" />
       <div className="p-6 h-screen flex flex-col gap-8 bg-background">
         <div className="flex items-center justify-between">
           <GameInstructions />

@@ -8,6 +8,7 @@ import useCountdown from "@/hooks/countdown";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { motion, type Variants } from "motion/react";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,
@@ -54,10 +55,11 @@ function TimerButton() {
   return (
     <button
       className={cn(
-        "flex justify-center gap-2 bg-white text-2xl font-semibold px-4 py-6 border rounded-lg",
+        "flex justify-center gap-2 bg-white text-2xl font-semibold px-4 py-6 border rounded-lg transition",
         {
           "bg-primary text-white": isRunning,
           "bg-destructive": isRunning && remainingSeconds < 4,
+          "bg-amber-400": remainingSeconds === 0,
         },
       )}
       onClick={() => {
@@ -70,13 +72,22 @@ function TimerButton() {
         return resume();
       }}
     >
-      <motion.span
-        initial={{ scale: 1 }}
-        whileTap={{ scale: 0.8 }}
-        transition={{ duration: 1 }}
-      >
+      {!remainingSeconds ? (
+        <motion.span
+          animate={{
+            rotate: [0, 5, 0, -5, 0],
+            translate: ["0px", "3px", "0px", "-3px", "0px"],
+          }}
+          transition={{
+            duration: 0.1,
+            repeat: 12,
+          }}
+        >
+          <ClockIcon className="size-9" />
+        </motion.span>
+      ) : (
         <ClockIcon className="size-9" />
-      </motion.span>
+      )}
       <span className="w-14 text-left">{remainingSeconds}s</span>
     </button>
   );
@@ -95,10 +106,20 @@ const dotVariants: Variants = {
 
 function RouteComponent() {
   const { teams } = useTeams();
+  const { remainingSeconds } = useCountdown();
   const { data: randomCountry, isLoading, refetch } = useGetRandomCountry();
   const countryName = randomCountry?.name.common;
   const countryFlag = randomCountry?.flags.png;
   const [nameAnimationKey, setNameAnimationKey] = useState(0);
+
+  useEffect(() => {
+    if (remainingSeconds === 0) {
+      toast("Time's up!", {
+        description: "Your turn is over. It is time for the next team to play.",
+        icon: <ClockIcon className="size-4" />,
+      });
+    }
+  }, [remainingSeconds]);
 
   const handleSpin = () => {
     setNameAnimationKey((key) => key + 1);
