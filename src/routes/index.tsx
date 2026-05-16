@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ClockIcon, Dice5Icon } from "lucide-react";
+import { ClockIcon } from "lucide-react";
 import TeamCard from "@/components/team-card";
 import ManageGame from "@/components/manage-game";
 import useTeams from "@/hooks/teams";
@@ -7,102 +7,15 @@ import useGetRandomCountry from "@/hooks/random-country";
 import useCountdown from "@/hooks/countdown";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
-import { motion, type Variants } from "motion/react";
+import { motion } from "motion/react";
 import { toast } from "sonner";
+import SpinButton from "@/components/ui/spin-button";
+import TimerButton from "@/components/ui/timer-button";
+import LoadingDots from "@/components/ui/loading-dots";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,
 });
-
-function SpinButton({ onClick }: { onClick: () => void }) {
-  const [rotation, setRotation] = useState(360);
-
-  return (
-    <button
-      className="flex-1 flex items-center justify-center gap-2 bg-primary text-white text-2xl font-semibold py-6 rounded-lg uppercase"
-      onClick={() => {
-        setRotation((r) => r + 360);
-        onClick();
-      }}
-    >
-      <motion.span animate={{ rotate: rotation }} transition={{ duration: 1 }}>
-        <Dice5Icon className="size-9 fill-white stroke-black" />
-      </motion.span>
-      Spin
-    </button>
-  );
-}
-
-function TimerButton() {
-  const {
-    remainingSeconds,
-    isRunning,
-    durationSeconds,
-    start,
-    pause,
-    resume,
-    reset,
-  } = useCountdown();
-
-  useEffect(() => {
-    if (remainingSeconds === 0) {
-      setTimeout(() => {
-        reset();
-      }, 2000);
-    }
-  }, [remainingSeconds, reset]);
-
-  return (
-    <button
-      className={cn(
-        "flex justify-center gap-2 bg-white text-2xl font-semibold px-4 py-6 border rounded-lg transition",
-        {
-          "bg-primary text-white": isRunning,
-          "bg-destructive": isRunning && remainingSeconds < 4,
-          "bg-amber-400": remainingSeconds === 0,
-        },
-      )}
-      onClick={() => {
-        if (isRunning) {
-          return pause();
-        }
-        if (remainingSeconds === durationSeconds) {
-          return start();
-        }
-        return resume();
-      }}
-    >
-      {!remainingSeconds ? (
-        <motion.span
-          animate={{
-            rotate: [0, 5, 0, -5, 0],
-            translate: ["0px", "3px", "0px", "-3px", "0px"],
-          }}
-          transition={{
-            duration: 0.1,
-            repeat: 12,
-          }}
-        >
-          <ClockIcon className="size-9" />
-        </motion.span>
-      ) : (
-        <ClockIcon className="size-9" />
-      )}
-      <span className="w-14 text-left">{remainingSeconds}s</span>
-    </button>
-  );
-}
-
-const dotVariants: Variants = {
-  pulse: {
-    scale: [1, 1.5, 1],
-    transition: {
-      duration: 1.2,
-      repeat: Infinity,
-      ease: "easeInOut",
-    },
-  },
-};
 
 function RouteComponent() {
   const { teams } = useTeams();
@@ -134,24 +47,7 @@ function RouteComponent() {
         </p>
         <div className="h-14 w-full min-w-0 flex items-center justify-center gap-2">
           {isLoading ? (
-            <motion.div
-              animate="pulse"
-              transition={{ staggerChildren: -0.2, staggerDirection: -1 }}
-              className="flex items-center justify-center gap-5"
-            >
-              <motion.div
-                className="size-2 rounded-full bg-primary will-change-transform"
-                variants={dotVariants}
-              />
-              <motion.div
-                className="size-2 rounded-full bg-primary will-change-transform"
-                variants={dotVariants}
-              />
-              <motion.div
-                className="size-2 rounded-full bg-primary will-change-transform"
-                variants={dotVariants}
-              />
-            </motion.div>
+            <LoadingDots />
           ) : (
             <>
               <img
