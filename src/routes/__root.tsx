@@ -44,7 +44,7 @@ function RootComponent() {
         </div>
         <Outlet />
         <p className="text-gray-400 text-xs text-center">
-          © {currentYear} Gus Davidson Group
+          © {currentYear} Bunny Jones Worldwide Gaming Initiative
         </p>
       </div>
     </QueryClientProvider>
