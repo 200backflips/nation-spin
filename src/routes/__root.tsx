@@ -22,7 +22,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <Toaster position="top-center" />
       <div className="w-screen md:py-4">
-        <div className="h-screen md:h-[calc(100vh-2rem)] md:max-w-xl mx-auto flex flex-col gap-8 p-6 bg-background md:rounded-md md:shadow-sm">
+        <div className="h-dvh md:h-[calc(100dvh-2rem)] md:max-w-xl mx-auto flex flex-col gap-6 p-6 bg-background md:rounded-md md:shadow-sm">
           <div className="flex items-center justify-between">
             <GameInstructions />
             <h2 className="text-center">Nation Spin</h2>

@@ -12,9 +12,9 @@ export default function ThemeToggle() {
       }}
     >
       {theme === "dark" ? (
-        <MoonIcon className="size-5" />
+        <MoonIcon className="size-6" />
       ) : (
-        <SunIcon className="size-5" />
+        <SunIcon className="size-6" />
       )}
     </button>
   );

@@ -19,6 +19,9 @@ const iconColors = [
   "bg-emerald-200",
 ];
 
+const buttonClasses =
+  "size-9 flex items-center justify-center text-lg border rounded-full";
+
 export default function TeamCard({ id, name, score, index }: Props) {
   const { updateTeamScore } = useTeams();
 
@@ -40,15 +43,13 @@ export default function TeamCard({ id, name, score, index }: Props) {
             iconColors[index % iconColors.length],
           )}
         >
-          <UsersIcon />
+          <UsersIcon className="size-4" />
         </span>
-        <h3 className="text-lg">
-          {name?.length > 20 ? name.slice(0, 20) + "..." : name}
-        </h3>
+        <h4>{name?.length > 20 ? name.slice(0, 20) + "..." : name}</h4>
       </div>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-3">
         <button
-          className="flex items-center justify-center px-2 border rounded-full"
+          className={buttonClasses}
           onClick={() => {
             updateTeamScore(id, score - 1);
           }}
@@ -57,7 +58,7 @@ export default function TeamCard({ id, name, score, index }: Props) {
         </button>
         <h2>{score ?? 0}</h2>
         <button
-          className="flex items-center justify-center bg-primary text-white px-2 border rounded-full"
+          className={cn(buttonClasses, "bg-primary text-white")}
           onClick={() => {
             updateTeamScore(id, score + 1);
           }}

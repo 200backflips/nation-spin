@@ -28,7 +28,7 @@ export default function GameInstructions() {
   return (
     <Dialog>
       <DialogTrigger>
-        <CircleQuestionMarkIcon className="size-5" />
+        <CircleQuestionMarkIcon className="size-6" />
       </DialogTrigger>
       <DialogContent className="sm:max-w-sm" aria-describedby={undefined}>
         <DialogHeader>

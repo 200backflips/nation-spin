@@ -30,7 +30,8 @@ const formSchema = z.object({
 });
 
 const getDefaultValues = () => ({
-  id: crypto.randomUUID(),
+  // id: crypto.randomUUID(),
+  id: Math.random().toString(36).substring(2, 15),
   name: "",
 });
 
@@ -50,7 +51,9 @@ export default function ManageGame() {
   return (
     <Dialog>
       <DialogTrigger>
-        <h3 className="bg-amber-400 px-4 py-1 rounded-full">Manage game</h3>
+        <h2 className="px-4 py-1 bg-amber-400 font-semibold rounded-full">
+          Manage game
+        </h2>
       </DialogTrigger>
       <DialogContent
         className="sm:max-w-sm max-h-[90vh] grid-rows-[auto_auto_1fr]"

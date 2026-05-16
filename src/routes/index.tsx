@@ -91,7 +91,7 @@ function RouteComponent() {
         <div className="flex items-center justify-between">
           <h2>
             {teams.length === 0
-              ? "Not teams"
+              ? "No teams"
               : teams.length === 1
                 ? "1 team"
                 : `${teams.length} teams`}{" "}
