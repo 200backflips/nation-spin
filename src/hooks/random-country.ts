@@ -21,7 +21,7 @@ export interface Country {
 }
 
 const useGetRandomCountry = () =>
-  useQuery<Country[]>({
+  useQuery<Country>({
     queryKey: ["countries"],
     queryFn: () =>
       getCountries().then((countries) => getRandomCountry(countries)),

@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ClockIcon, Dice5Icon } from "lucide-react";
+import { ClockIcon, Dice5Icon, LoaderCircleIcon } from "lucide-react";
 import TeamCard from "@/components/team-card";
 import ManageGame from "@/components/manage-game";
 import useTeams from "@/hooks/teams";
@@ -64,7 +64,7 @@ function TimerButton() {
 
 function RouteComponent() {
   const { teams } = useTeams();
-  const { data: randomCountry, refetch } = useGetRandomCountry();
+  const { data: randomCountry, isLoading, refetch } = useGetRandomCountry();
   const countryName = randomCountry?.name.common;
   const countryFlag = randomCountry?.flags.png;
 
@@ -75,22 +75,28 @@ function RouteComponent() {
           Use a <strong>single</strong> word associated with
         </p>
         <div className="h-14 w-full min-w-0 flex items-center justify-center gap-2">
-          <img
-            src={countryFlag}
-            alt={`${countryName} flag`}
-            className="h-7 shrink-0"
-          />
-          <h1
-            className={cn("uppercase", {
-              "text-3xl": countryName.length > 10,
-              "text-2xl": countryName.length > 13,
-              "text-xl": countryName.length > 16,
-              "text-lg": countryName.length > 19,
-              "text-base": countryName.length > 22,
-            })}
-          >
-            {countryName ?? "Loading..."}
-          </h1>
+          {isLoading ? (
+            <LoaderCircleIcon className="size-8 animate-spin opacity-70" />
+          ) : (
+            <>
+              <img
+                src={countryFlag}
+                alt={`${countryName} flag`}
+                className="h-7 shrink-0"
+              />
+              <h1
+                className={cn("uppercase", {
+                  "text-3xl": countryName.length > 10,
+                  "text-2xl": countryName.length > 13,
+                  "text-xl": countryName.length > 16,
+                  "text-lg": countryName.length > 19,
+                  "text-base": countryName.length > 22,
+                })}
+              >
+                {countryName ?? "Unknown country"}
+              </h1>
+            </>
+          )}
         </div>
         <div className="w-20 h-0.5 bg-primary" />
       </div>
