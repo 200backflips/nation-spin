@@ -1,33 +1,18 @@
 import { Outlet, createRootRoute } from "@tanstack/react-router";
-import { MoonIcon, SunIcon } from "lucide-react";
 import GameInstructions from "@/components/game-instructions";
-import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/sonner";
+import ThemeToggle from "@/components/ui/theme-toggle";
 
 const currentYear = new Date().getFullYear();
 
 export const Route = createRootRoute({
   component: RootComponent,
+  notFoundComponent: NotFoundComponent,
 });
 
-function ThemeToggle() {
-  const [theme, setTheme] = useState("light");
-
-  return (
-    <button
-      onClick={() => {
-        document.documentElement.classList.toggle("dark");
-        setTheme(theme === "dark" ? "light" : "dark");
-      }}
-    >
-      {theme === "dark" ? (
-        <MoonIcon className="size-5" />
-      ) : (
-        <SunIcon className="size-5" />
-      )}
-    </button>
-  );
+function NotFoundComponent() {
+  return <div>404 - Page not found. Please check the url and try again.</div>;
 }
 
 function RootComponent() {

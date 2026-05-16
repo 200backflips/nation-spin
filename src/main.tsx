@@ -4,7 +4,12 @@ import "./index.css";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen.ts";
 
-const router = createRouter({ routeTree });
+const basepath = import.meta.env.BASE_URL.replace(/\/$/, "") || "/";
+
+const router = createRouter({
+  routeTree,
+  basepath,
+});
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
