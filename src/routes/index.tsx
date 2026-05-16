@@ -156,7 +156,7 @@ function RouteComponent() {
             <>
               <img
                 src={countryFlag}
-                alt={`${countryName} flag`}
+                alt="National flag"
                 className="h-7 shrink-0"
               />
               <h1
@@ -211,7 +211,7 @@ function RouteComponent() {
         }}
       >
         {teams.map((team, index) => (
-          <TeamCard key={team.id} {...team} delay={index * 0.1 + 0.2} />
+          <TeamCard key={team.id} {...team} index={index} />
         ))}
       </div>
     </>

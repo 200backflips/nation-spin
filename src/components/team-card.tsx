@@ -2,12 +2,24 @@ import { UsersIcon } from "lucide-react";
 import type { Team } from "@/hooks/teams";
 import useTeams from "@/hooks/teams";
 import { motion } from "motion/react";
+import { cn } from "@/lib/utils";
 
 type Props = Team & {
-  delay: number;
+  index: number;
 };
 
-export default function TeamCard({ id, name, score, delay }: Props) {
+const iconColors = [
+  "bg-blue-200",
+  "bg-green-200",
+  "bg-orange-200",
+  "bg-purple-200",
+  "bg-olive-200",
+  "bg-indigo-200",
+  "bg-amber-200",
+  "bg-emerald-200",
+];
+
+export default function TeamCard({ id, name, score, index }: Props) {
   const { updateTeamScore } = useTeams();
 
   return (
@@ -17,12 +29,17 @@ export default function TeamCard({ id, name, score, delay }: Props) {
       animate={{ opacity: 1, scale: 1 }}
       transition={{
         duration: 0.5,
-        delay,
+        delay: index * 0.1 + 0.2,
         ease: [0, 0.71, 0.2, 1.01],
       }}
     >
       <div className="flex items-start gap-2">
-        <span className="bg-secondary p-3 rounded-lg">
+        <span
+          className={cn(
+            "bg-secondary p-3 rounded-lg",
+            iconColors[index % iconColors.length],
+          )}
+        >
           <UsersIcon />
         </span>
         <h3 className="text-lg">
