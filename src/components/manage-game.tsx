@@ -30,8 +30,7 @@ const formSchema = z.object({
 });
 
 const getDefaultValues = () => ({
-  // id: crypto.randomUUID(),
-  id: Math.random().toString(36).substring(2, 15),
+  id: crypto.randomUUID(),
   name: "",
 });
 
@@ -56,7 +55,7 @@ export default function ManageGame() {
         </h2>
       </DialogTrigger>
       <DialogContent
-        className="sm:max-w-sm max-h-[90vh] grid-rows-[auto_auto_1fr]"
+        className="grid-rows-[auto_auto_1fr]"
         aria-describedby={undefined}
       >
         <DialogHeader>
@@ -67,13 +66,13 @@ export default function ManageGame() {
         </DialogHeader>
         <h4>Settings</h4>
         <div className="flex items-center justify-between">
-          <p>Turn duration (in seconds)</p>
+          <p className="text-base text-muted-foreground">Turn duration</p>
           <div className="flex items-center gap-1">
             {TIMER_DURATIONS.map((duration) => (
               <Button
                 key={duration}
                 variant={duration === durationSeconds ? "default" : "outline"}
-                size="icon"
+                size="icon-lg"
                 onClick={() => setDuration(duration)}
                 disabled={isRunning}
               >
@@ -110,7 +109,11 @@ export default function ManageGame() {
                 </Field>
               )}
             />
-            <Button form="form-team" disabled={form.formState.isSubmitting}>
+            <Button
+              form="form-team"
+              disabled={form.formState.isSubmitting}
+              size="lg"
+            >
               <UsersIcon /> Add
             </Button>
           </FieldGroup>
@@ -131,7 +134,9 @@ export default function ManageGame() {
               className="flex items-center justify-between"
             >
               <div className="flex items-center gap-2 max-w-[85%]">
-                <p className="truncate">{team.name}</p>
+                <p className="truncate text-base text-muted-foreground">
+                  {team.name}
+                </p>
                 <Badge variant="secondary">{team.score ?? 0}</Badge>
               </div>
               <Button
@@ -142,7 +147,7 @@ export default function ManageGame() {
                   removeTeam(team.id);
                 }}
               >
-                <TrashIcon className="size-3 text-destructive stroke-3" />
+                <TrashIcon className="size-4 text-destructive stroke-3" />
               </Button>
             </motion.div>
           ))}

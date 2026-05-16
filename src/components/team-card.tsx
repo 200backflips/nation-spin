@@ -20,14 +20,14 @@ const iconColors = [
 ];
 
 const buttonClasses =
-  "size-9 flex items-center justify-center text-lg border rounded-full";
+  "size-9 flex items-center justify-center text-lg font-bold border rounded-full";
 
 export default function TeamCard({ id, name, score, index }: Props) {
   const { updateTeamScore } = useTeams();
 
   return (
     <motion.div
-      className="flex flex-col justify-between gap-2 bg-white p-2 border rounded-lg"
+      className="flex flex-col justify-between gap-2 bg-card p-2 border rounded-lg"
       initial={{ opacity: 0, scale: 0.5 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{
@@ -39,7 +39,7 @@ export default function TeamCard({ id, name, score, index }: Props) {
       <div className="flex items-start gap-2">
         <span
           className={cn(
-            "bg-secondary p-3 rounded-lg",
+            "p-3 bg-secondary  text-black rounded-lg",
             iconColors[index % iconColors.length],
           )}
         >
@@ -58,7 +58,7 @@ export default function TeamCard({ id, name, score, index }: Props) {
         </button>
         <h2>{score ?? 0}</h2>
         <button
-          className={cn(buttonClasses, "bg-primary text-white")}
+          className={cn(buttonClasses, "bg-primary text-secondary")}
           onClick={() => {
             updateTeamScore(id, score + 1);
           }}

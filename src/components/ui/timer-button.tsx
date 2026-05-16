@@ -26,9 +26,9 @@ export default function TimerButton() {
   return (
     <button
       className={cn(
-        "flex justify-center gap-2 bg-white text-2xl font-semibold px-4 py-6 border rounded-lg transition",
+        "flex justify-center gap-2 bg-card text-2xl font-semibold px-4 py-6 border rounded-lg transition",
         {
-          "bg-primary text-white": isRunning,
+          "bg-primary text-secondary": isRunning,
           "bg-destructive": isRunning && remainingSeconds < 4,
           "bg-amber-400": remainingSeconds === 0,
         },

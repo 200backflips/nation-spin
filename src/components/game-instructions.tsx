@@ -30,7 +30,7 @@ export default function GameInstructions() {
       <DialogTrigger>
         <CircleQuestionMarkIcon className="size-6" />
       </DialogTrigger>
-      <DialogContent className="sm:max-w-sm" aria-describedby={undefined}>
+      <DialogContent aria-describedby={undefined}>
         <DialogHeader>
           <DialogTitle>How to play</DialogTitle>
         </DialogHeader>
@@ -49,13 +49,13 @@ export default function GameInstructions() {
           {points.map((point) => (
             <div
               key={point.number}
-              className="flex items-center justify-start gap-2 p-4 border rounded-md bg-accent"
+              className="flex items-center justify-start gap-2 p-3 border rounded-md bg-accent"
             >
-              <p className="size-8 flex items-center justify-center bg-primary text-white rounded-full">
-                {point.number}
+              <p className="size-8 flex items-center justify-center bg-primary text-secondary rounded-full">
+                {point.number}p
               </p>
               <p className="text-base">
-                For guessing right on the <strong>{point.order}</strong> clue
+                Correct guess on the <strong>{point.order}</strong> clue
               </p>
             </div>
           ))}
