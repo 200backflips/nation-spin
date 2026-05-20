@@ -5,7 +5,7 @@ import ManageGame from "@/components/manage-game";
 import useTeams from "@/hooks/teams";
 import useGetRandomCountry from "@/hooks/random-country";
 import useCountdown from "@/hooks/countdown";
-import { useEffect, useState } from "react";
+import { useEffect, useEffectEvent, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
 import { toast } from "sonner";
@@ -20,7 +20,12 @@ export const Route = createFileRoute("/")({
 });
 
 function RouteComponent() {
-  const { teams, updateTeamScore, currentPlayingTeamId } = useTeams();
+  const {
+    teams,
+    updateTeamScore,
+    currentPlayingTeamId,
+    setCurrentPlayingTeamId,
+  } = useTeams();
   const currentPlayingTeam = teams.find(
     (team) => team.id === currentPlayingTeamId,
   );
@@ -31,12 +36,38 @@ function RouteComponent() {
   const countryFlag = randomCountry?.flags.png ?? "";
   const [nameAnimationKey, setNameAnimationKey] = useState(0);
 
+  const onTimeUp = useEffectEvent(() => {
+    const nextTeamIndex =
+      teams.findIndex((team) => team.id === currentPlayingTeamId) + 1;
+    const nextTeam = teams[nextTeamIndex];
+
+    if (nextTeamIndex < teams.length) {
+      setCurrentPlayingTeamId(teams[nextTeamIndex]?.id ?? "");
+    } else {
+      setCurrentPlayingTeamId(teams?.at(0)?.id ?? "");
+    }
+    toast("Time's up!", {
+      description: (
+        <>
+          Your turn is over. It is time for{" "}
+          <strong>
+            {nextTeam?.name ?? teams?.at(0)?.name ?? "the next team"}
+          </strong>{" "}
+          to play.
+        </>
+      ),
+      icon: <ClockIcon className="size-4" />,
+    });
+  });
+
+  const prevRemainingRef = useRef(remainingSeconds);
+
   useEffect(() => {
-    if (remainingSeconds === 0) {
-      toast("Time's up!", {
-        description: "Your turn is over. It is time for the next team to play.",
-        icon: <ClockIcon className="size-4" />,
-      });
+    const prev = prevRemainingRef.current;
+    prevRemainingRef.current = remainingSeconds;
+
+    if (prev > 0 && remainingSeconds === 0) {
+      onTimeUp();
     }
   }, [remainingSeconds]);
 
