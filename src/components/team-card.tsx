@@ -3,6 +3,7 @@ import type { Team } from "@/hooks/teams";
 import useTeams from "@/hooks/teams";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
+import CircularButton from "./ui/circular-button";
 
 type Props = Team & {
   index: number;
@@ -19,53 +20,52 @@ const iconColors = [
   "bg-emerald-200",
 ];
 
-const buttonClasses =
-  "size-9 flex items-center justify-center text-lg font-bold border rounded-full";
-
 export default function TeamCard({ id, name, score, index }: Props) {
-  const { updateTeamScore } = useTeams();
+  const { updateTeamScore, currentPlayingTeamId, setCurrentPlayingTeamId } =
+    useTeams();
+  const isCurrentPlayingTeam = id === currentPlayingTeamId;
 
   return (
-    <motion.div
-      className="flex flex-col justify-between gap-2 bg-card p-2 border rounded-lg"
-      initial={{ opacity: 0, scale: 0.5 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{
-        duration: 0.5,
-        delay: index * 0.1 + 0.2,
-        ease: [0, 0.71, 0.2, 1.01],
-      }}
-    >
-      <div className="flex items-start gap-2">
-        <span
-          className={cn(
-            "p-3 bg-secondary  text-black rounded-lg",
-            iconColors[index % iconColors.length],
-          )}
-        >
-          <UsersIcon className="size-4" />
-        </span>
-        <h4>{name?.length > 20 ? name.slice(0, 20) + "..." : name}</h4>
-      </div>
-      <div className="flex items-center gap-3">
-        <button
-          className={buttonClasses}
-          onClick={() => {
-            updateTeamScore(id, score - 1);
-          }}
-        >
+    <div className="relative">
+      <motion.button
+        className={cn(
+          "size-full flex flex-col justify-between gap-2 p-2 bg-card border rounded-lg",
+          isCurrentPlayingTeam && "bg-accent",
+        )}
+        initial={{ opacity: 0, scale: 0.5 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{
+          duration: 0.5,
+          delay: index * 0.1 + 0.2,
+          ease: [0, 0.71, 0.2, 1.01],
+        }}
+        onClick={() => setCurrentPlayingTeamId(id)}
+      >
+        <div className="flex items-start gap-2">
+          <span
+            className={cn(
+              "p-3 bg-secondary  text-black rounded-lg",
+              iconColors[index % iconColors.length],
+            )}
+          >
+            <UsersIcon className="size-4" />
+          </span>
+          <h4>{name?.length > 20 ? name.slice(0, 20) + "..." : name}</h4>
+        </div>
+        <div className="h-9" />
+      </motion.button>
+      <div className="flex items-center gap-3 p-2 absolute bottom-0">
+        <CircularButton onClick={() => updateTeamScore(id, score - 1)}>
           -
-        </button>
+        </CircularButton>
         <h2>{score ?? 0}</h2>
-        <button
-          className={cn(buttonClasses, "bg-primary text-secondary")}
-          onClick={() => {
-            updateTeamScore(id, score + 1);
-          }}
+        <CircularButton
+          className="bg-primary text-secondary"
+          onClick={() => updateTeamScore(id, score + 1)}
         >
           +
-        </button>
+        </CircularButton>
       </div>
-    </motion.div>
+    </div>
   );
 }

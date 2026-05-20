@@ -8,15 +8,25 @@ export interface Team {
 
 interface TeamStore {
   teams: Team[];
+  currentPlayingTeamId: string;
   addTeam: (team: Team) => void;
   removeTeam: (id: string) => void;
   updateTeamScore: (id: string, score: number) => void;
+  setCurrentPlayingTeamId: (id: string) => void;
 }
 
 const storedTeams: Team[] = JSON.parse(localStorage.getItem("teams") || "[]");
 
 const useTeams = create<TeamStore>((set) => ({
   teams: storedTeams,
+  currentPlayingTeamId:
+    JSON.parse(localStorage.getItem("currentPlayingTeamId") || "null") ||
+    storedTeams?.[0]?.id ||
+    "",
+  setCurrentPlayingTeamId: (id) => {
+    set({ currentPlayingTeamId: id });
+    localStorage.setItem("currentPlayingTeamId", JSON.stringify(id));
+  },
   addTeam: (team) =>
     set(({ teams }) => {
       const newTeams = [...teams, team];

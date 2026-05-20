@@ -13,13 +13,18 @@ import SpinButton from "@/components/ui/spin-button";
 import TimerButton from "@/components/ui/timer-button";
 import LoadingDots from "@/components/ui/loading-dots";
 import ResetTimerButton from "@/components/ui/reset-timer-button";
+import CircularButton from "@/components/ui/circular-button";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const { teams } = useTeams();
+  const { teams, updateTeamScore, currentPlayingTeamId } = useTeams();
+  const currentPlayingTeam = teams.find(
+    (team) => team.id === currentPlayingTeamId,
+  );
+
   const { remainingSeconds } = useCountdown();
   const { data: randomCountry, isLoading, refetch } = useGetRandomCountry();
   const countryName = randomCountry?.name.common ?? "";
@@ -42,7 +47,7 @@ function RouteComponent() {
 
   return (
     <>
-      <div className="h-48 flex flex-col items-center gap-4 bg-accent border px-4 py-10 rounded-lg">
+      <div className="h-65.25 flex flex-col items-center gap-5 bg-accent border px-4 py-7 rounded-lg">
         <p className="uppercase">
           Use a <strong>single</strong> word associated with
         </p>
@@ -83,6 +88,44 @@ function RouteComponent() {
           )}
         </div>
         <div className="w-20 h-0.5 bg-primary" />
+        <div className="flex items-center justify-center gap-2">
+          <CircularButton
+            className="bg-emerald-600 text-white"
+            onClick={() =>
+              updateTeamScore(
+                currentPlayingTeamId,
+                (currentPlayingTeam?.score ?? 0) + 3,
+              )
+            }
+            size="xl"
+          >
+            3p
+          </CircularButton>
+          <CircularButton
+            className="bg-amber-500 text-white"
+            onClick={() =>
+              updateTeamScore(
+                currentPlayingTeamId,
+                (currentPlayingTeam?.score ?? 0) + 2,
+              )
+            }
+            size="xl"
+          >
+            2p
+          </CircularButton>
+          <CircularButton
+            className="bg-slate-400 text-white"
+            onClick={() =>
+              updateTeamScore(
+                currentPlayingTeamId,
+                (currentPlayingTeam?.score ?? 0) + 1,
+              )
+            }
+            size="xl"
+          >
+            1p
+          </CircularButton>
+        </div>
       </div>
       <div className="flex gap-2">
         <SpinButton onClick={handleSpin} />
